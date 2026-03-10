@@ -237,8 +237,11 @@ function earthDataAlerts() {
             var alertLabel = loc ? 'Local Alerts' : 'Global Alerts';
             var locClear = '';
             if (loc && loc.name) {
-                var city = (loc.name || '').split(',')[0].trim();
-                locClear = '<span id="alerts-loc-label" style="margin-left:auto"><a href="#" id="alerts-clear-loc" class="loc-clear"><i class="fa-solid fa-location-dot"></i> ' + esc(city) + ' <i class="fa-solid fa-xmark"></i></a></span>';
+                var parts = (loc.name || '').split(',');
+                var city = parts[0].trim();
+                var region = parts.length > 1 ? parts[1].trim() : '';
+                var locText = region ? city + ', ' + region : city;
+                locClear = '<span id="alerts-loc-label" style="margin-left:auto"><a href="#" id="alerts-clear-loc" class="loc-clear"><i class="fa-solid fa-location-dot"></i> ' + esc(locText) + ' <i class="fa-solid fa-xmark"></i></a></span>';
             }
             var html = '<div class="section-title"><i class="fa-solid fa-bell"></i> ' + alertLabel + locClear + '</div>';
             if (!alerts.length) {
