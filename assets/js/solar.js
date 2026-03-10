@@ -11,13 +11,13 @@ var OPTIONS = {
 // ===== SELECTORS =====
 var SELECTORS = {
     content: '#solar-content',
-    flares: '#solar-flares'
+    forecast: '#solar-forecast'
 };
 
 // ===== STATE =====
 var STATE = {
     refreshTimer: null,
-    flareShowCount: 20,
+    flareShowCount: 10,
     chartCanvas: null,
     chartTooltip: null,
     chartXray: []
@@ -50,7 +50,7 @@ function loadSolarData() {
         renderSolar(data[0], data[1], data[2], data[3], data[4]);
     }).catch(function() {
         document.querySelector(SELECTORS.content).innerHTML = '<div class="error-msg"><i class="fa-solid fa-triangle-exclamation"></i> Failed to load solar data.</div>';
-        document.querySelector(SELECTORS.flares).innerHTML = '';
+        document.querySelector(SELECTORS.forecast).innerHTML = '';
     });
 }
 
@@ -128,25 +128,25 @@ function renderSolar(xray, flares, scales, kpData, plasma) {
     html += '</div>';
     html += '</div>';
 
-    // 3-day forecast
-    html += '<div class="section-title"><i class="fa-solid fa-calendar-days"></i> 3-Day Forecast</div>';
-    html += '<div class="sub-grid">';
-    forecast.forEach(function(day) {
-        var dateLabel = formatDateLabel(day.date);
-        html += '<div class="sub-card daily-card">';
-        html += '<div class="sub-card-title lg">' + dateLabel + '</div>';
-        html += '<div class="daily-card-icon"><i class="fa-solid fa-sun c-yellow"></i></div>';
-        html += '<div class="daily-card-stats">';
-        html += '<div class="sub-card-wind"><i class="fa-solid fa-bolt"></i> Flare <span class="' + probClass(day.rMinor) + '">' + day.rMinor + '%</span></div>';
-        html += '<div class="sub-card-wind"><i class="fa-solid fa-explosion"></i> Major <span class="' + probClassMajor(day.rMajor) + '">' + day.rMajor + '%</span></div>';
-        html += '<div class="sub-card-wind"><i class="fa-solid fa-radiation"></i> Radiation <span class="' + probClassRadiation(day.sProb) + '">' + day.sProb + '%</span></div>';
-        html += '<div class="sub-card-wind"><i class="fa-solid fa-globe"></i> Geomag <span class="level-' + Math.min(day.gScale, 5) + '">G' + day.gScale + '</span></div>';
-        html += '</div>';
-        html += '</div>';
-    });
-    html += '</div>';
+    // Flares placeholder (rendered into left column)
+    html += '<div id="solar-flares-wrap"></div>';
 
     document.querySelector(SELECTORS.content).innerHTML = html;
+
+    // 3-day forecast (right column)
+    var forecastHtml = '';
+    forecastHtml += '<div class="section-title"><i class="fa-solid fa-calendar-days"></i> 3-Day Forecast</div>';
+    forecast.forEach(function(day) {
+        var dateLabel = formatDateLabel(day.date);
+        var detail = 'Flare ' + day.rMinor + '% · Major ' + day.rMajor + '% · Radiation ' + day.sProb + '%';
+        forecastHtml += '<div class="row row-wrap">';
+        forecastHtml += '<div class="row-icon"><i class="fa-solid fa-sun c-yellow"></i></div>';
+        forecastHtml += '<div class="row-label">' + dateLabel + '</div>';
+        forecastHtml += '<div class="row-text right"><span class="level-' + Math.min(day.gScale, 5) + '">G' + day.gScale + '</span></div>';
+        forecastHtml += '<div class="row-detail">' + detail + '</div>';
+        forecastHtml += '</div>';
+    });
+    document.querySelector(SELECTORS.forecast).innerHTML = forecastHtml;
 
     initSolarChart();
     renderFlares(flareList);
@@ -210,12 +210,12 @@ function renderFlares(flareList) {
         }
     }
 
-    document.querySelector(SELECTORS.flares).innerHTML = flaresHtml;
+    document.getElementById('solar-flares-wrap').innerHTML = flaresHtml;
 
     var loadMore = document.getElementById('flare-load-more');
     if (loadMore) {
         loadMore.addEventListener('click', function() {
-            STATE.flareShowCount += 20;
+            STATE.flareShowCount += 10;
             renderFlares(flareList);
         });
     }
