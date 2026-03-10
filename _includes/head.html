@@ -1,0 +1,108 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+<title>{% if page.page_title %}{{ page.page_title }}{% else %}{{ site.title }} — Live environmental data{% endif %}</title>
+<meta name="description" content="{% if page.page_description %}{{ page.page_description }}{% else %}{{ site.description }}{% endif %}">
+<meta name="keywords" content="{% if page.page_keywords %}{{ page.page_keywords }}{% else %}real-time earth monitoring dashboard, live air quality map, live solar weather tracker, aurora forecast tool, live earthquake monitor, space weather dashboard, live UV index by location, tide predictions real-time{% endif %}">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<link rel="icon" type="image/png" href="{{ site.url }}/assets/images/favicon.png">
+<link rel="apple-touch-icon" href="{{ site.url }}/assets/images/touch-152.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+{% assign og_title = page.page_title | default: site.title %}
+{% if og_title contains ' — Earth Data' %}
+  {% assign og_title = og_title | remove: ' — Earth Data' %}
+{% elsif og_title contains 'Earth Data — ' %}
+  {% assign og_title = og_title | remove: 'Earth Data — ' %}
+{% endif %}
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{{ og_title }}">
+<meta property="og:description" content="{% if page.page_description %}{{ page.page_description }}{% else %}{{ site.description }}{% endif %}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:image" content="{{ site.url }}/assets/images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title }}">
+<meta name="twitter:description" content="{% if page.page_description %}{{ page.page_description }}{% else %}{{ site.description }}{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}/assets/images/og.png">
+
+{% if page.page_geo %}
+<meta name="geo.region" content="{{ page.page_geo.region }}">
+<meta name="geo.placename" content="{{ page.page_geo.placename }}">
+<meta name="geo.position" content="{{ page.page_geo.position }}">
+<meta name="ICBM" content="{{ page.page_geo.icbm }}">
+{% endif %}
+
+<meta name="robots" content="{{ page.robots | default: 'index, follow' }}">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"{{ site.title }}","url":"{{ site.url }}","description":"{% if page.page_description %}{{ page.page_description }}{% else %}{{ site.description }}{% endif %}"}
+</script>
+
+{% if page.page_schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ page.page_schema.type }}",
+  "name": "{{ page.page_schema.name }}",
+  "description": "{{ page.page_schema.description }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "applicationCategory": "{{ page.page_schema.category }}",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endif %}
+
+{% if page.page_dataset %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "{{ page.page_dataset.name }}",
+  "description": "{{ page.page_dataset.description }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "isAccessibleForFree": true,
+  "creator": {
+    "@type": "Organization",
+    "name": "{{ site.title }}",
+    "url": "{{ site.url }}"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "{{ page.page_dataset.provider_name }}",
+    "url": "{{ page.page_dataset.provider_url }}"
+  },
+  "temporalCoverage": "{{ page.page_dataset.temporal }}",
+  "spatialCoverage": "{{ page.page_dataset.spatial }}",
+  "variableMeasured": [{% for v in page.page_dataset.variables %}"{{ v }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+}
+</script>
+{% endif %}
+
+{% unless page.url == '/' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "{{ page.page_name | default: page.page_title }}"}
+  ]
+}
+</script>
+{% endunless %}
+
+<script>var t=localStorage.getItem('ed_theme');if(t)document.documentElement.setAttribute('data-theme',t);</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="/assets/css/style.css">

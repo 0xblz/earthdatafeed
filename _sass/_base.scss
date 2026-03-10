@@ -1,0 +1,60 @@
+/* === Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === Skip to main === */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: .5em 1em;
+  background: var(--bg);
+  color: var(--text-strong);
+  &:focus { left: 0; }
+}
+
+/* === Body === */
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Ubuntu', -apple-system, sans-serif;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Links === */
+a {
+  color: var(--text-strong);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--link-hover);
+  }
+}
+
+/* === Focus Visible === */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+input:focus-visible {
+  outline-offset: -1px;
+}
+
+/* === Autofill Fix === */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  -webkit-text-fill-color: var(--text-strong);
+  transition: background-color 5000s ease-in-out 0s;
+}

@@ -1,0 +1,53 @@
+---
+layout: default
+page_title: "UV Index — Earth Data"
+page_description: "Live UV Index by Location: Real-time UV index, hourly UV forecast, 5-day daily UV max forecast, and WHO UV scale guidance. Powered by Open-Meteo."
+page_keywords: "UV index, ultraviolet, UV forecast, sun protection, sunburn, SPF, UV radiation, live UV index by location"
+page_name: "UV"
+page_dataset:
+  name: "Live UV Index"
+  description: "Real-time UV index with hourly curve, daily maximum forecast, and WHO UV scale guidance."
+  variables:
+    - "UV Index"
+    - "Daily UV Maximum"
+  provider_name: "Open-Meteo"
+  provider_url: "https://open-meteo.com"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<form class="search-form" method="get" autocomplete="off">
+    <div class="search-wrap">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" name="q" id="q" placeholder="City, zip code, or place...">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dropdown" id="ac-dropdown"></div>
+    </div>
+</form>
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="results" class="page-content">
+    <div class="empty"><i class="fa-solid fa-sun"></i> Enter a city or location to check UV index</div>
+</div>
+</div>
+<div class="home-right">
+<div id="uv-today" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/uv.js"></script>
+<script>
+earthDataSearch({
+    path: '/uv',
+    loadingText: 'Loading UV index data...',
+    emptyIcon: 'fa-sun',
+    emptyText: 'Enter a city or location to check UV index',
+    saveLocation: true,
+    onSelect: function(q) {
+        loadUV(q);
+    }
+});
+</script>

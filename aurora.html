@@ -1,0 +1,34 @@
+---
+layout: default
+page_title: "Aurora — Earth Data"
+page_description: "Live Aurora Forecast and Geomagnetic Activity Dashboard: Real-time Kp index, G-scale, IMF Bz, hemispheric power, aurora visibility guide, and Kp history. Powered by NOAA SWPC."
+page_keywords: "aurora, aurora borealis, aurora forecast, northern lights, Kp index, geomagnetic storm, NOAA SWPC, space weather, aurora forecast tool"
+page_name: "Aurora"
+page_dataset:
+  name: "Live Aurora Forecast"
+  description: "Real-time Kp index, G-scale, IMF Bz, hemispheric power, aurora visibility guide by latitude, and 3-day forecast."
+  variables:
+    - "Kp Index"
+    - "IMF Bz"
+    - "Hemispheric Power"
+    - "G-Scale"
+  provider_name: "NOAA SWPC"
+  provider_url: "https://www.swpc.noaa.gov"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="aurora-content" class="page-content"></div>
+</div>
+<div class="home-right">
+<div id="aurora-kp-history" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/aurora.js"></script>
+<script>
+earthDataAurora();
+</script>

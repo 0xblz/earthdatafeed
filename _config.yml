@@ -1,0 +1,36 @@
+# Jekyll configuration for Earth Data
+title: Earth Data
+description: "Real-time earth monitoring dashboard — live air quality, UV index, tide predictions, solar and space weather, earthquake monitor, and aurora forecast."
+url: "https://earthdatafeed.com"
+baseurl: ""
+
+# Build settings
+source: .
+destination: ./_site
+include: ['.htaccess']
+exclude: ['Gemfile', 'Gemfile.lock', 'node_modules', '.git', '.gitignore', 'README.md', '.ruby-version']
+encoding: utf-8
+keep_files: []
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Markdown
+highlighter: rouge
+markdown: kramdown
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed
+

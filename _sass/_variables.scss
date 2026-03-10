@@ -1,0 +1,44 @@
+/* === Font Faces === */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+/* === CSS Custom Properties === */
+:root {
+  --bg: #0a0a0a;
+  --surface: #111;
+  --border: #1a1a1a;
+  --border-subtle: #111;
+  --text: #b0b0b0;
+  --text-strong: #ccc;
+  --text-secondary: #888;
+  --text-tertiary: #666;
+  --text-muted: #555;
+  --text-dim: #444;
+  --text-faint: #333;
+  --text-ghost: #222;
+  --link-hover: #fff;
+  --hover-bg: #111;
+  --focus: #3b82f6;
+  --radius: 6px;
+  --radius-sm: 4px;
+
+  /* Spacing */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+
+  /* Colors */
+  --color-red: #ef4444;
+  --color-red-dark: #dc2626;
+  --color-orange: #f97316;
+  --color-amber: #f59e0b;
+  --color-yellow: #eab308;
+  --color-green: #22c55e;
+  --color-cyan: #06b6d4;
+  --color-blue: #3b82f6;
+  --color-purple: #8b5cf6;
+  --color-pink: #ec4899;
+}

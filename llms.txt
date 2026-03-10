@@ -1,0 +1,26 @@
+# Earth Data
+
+> Real-time earth monitoring dashboard with live environmental data.
+
+Earth Data (earthdatafeed.com) is a free, open-access dashboard that displays real-time environmental and space weather data. All data is fetched client-side from public APIs — no API keys or accounts required.
+
+## Pages
+
+- [Weather](https://earthdatafeed.com/weather/): Live weather conditions and 7-day forecast for any location worldwide. Data: temperature, humidity, wind, pressure, visibility, cloud cover, NWS alerts (US). Source: Open-Meteo API.
+- [Air Quality](https://earthdatafeed.com/air/): Real-time Air Quality Index (AQI) with pollutant breakdown. Data: US AQI, PM2.5, PM10, ozone, NO2, SO2, CO, 72-hour trend, 3-day forecast. Source: Open-Meteo Air Quality API.
+- [UV Index](https://earthdatafeed.com/uv/): Live UV index with hourly curve and multi-day forecast. Data: current UV, hourly UV, daily max UV, WHO scale guidance. Source: Open-Meteo API.
+- [Tides](https://earthdatafeed.com/tides/): Tide predictions for US coastal locations. Data: current water level, next high/low tides, tide direction, 3-day tide chart. Source: NOAA CO-OPS API.
+- [Solar](https://earthdatafeed.com/solar/): Live space weather dashboard. Data: X-ray flux, Kp index, solar wind speed/density, NOAA R/S/G storm scales, 3-day forecast, 7-day flare history. Source: NOAA SWPC.
+- [Earthquakes](https://earthdatafeed.com/earthquakes/): Live earthquake tracker with 3D globe. Data: all M1+ earthquakes in last 24 hours, magnitude, depth, location, interactive timeline. Source: USGS Earthquake Hazards Program.
+- [Aurora](https://earthdatafeed.com/aurora/): Aurora and geomagnetic activity forecast. Data: Kp index, G-scale, IMF Bz, hemispheric power, visibility guide by latitude, 3-day forecast. Source: NOAA SWPC.
+- [Moon](https://earthdatafeed.com/moon/): Current lunar phase dashboard. Data: phase name, illumination %, moon age, distance from Earth, monthly phase calendar, upcoming phase dates. Source: astronomical calculations.
+- [Satellite](https://earthdatafeed.com/satellite/): NASA satellite imagery viewer with 16 data layers. Data: true color, night lights, fires, sea surface temp, snow cover, vegetation, aerosol, cloud top temp, water vapor, CO, chlorophyll, sea ice, land surface temp, flood extent, precipitation, dust score. Source: NASA GIBS (MODIS/VIIRS).
+
+## Data Sources
+
+- Open-Meteo (open-meteo.com): Weather, air quality, UV index
+- NOAA CO-OPS (tidesandcurrents.noaa.gov): Tide predictions
+- NOAA SWPC (swpc.noaa.gov): Solar weather, aurora, geomagnetic activity
+- USGS (earthquake.usgs.gov): Earthquake data
+- NASA EPIC (epic.gsfc.nasa.gov): Earth imagery
+- NASA GIBS (earthdata.nasa.gov): Satellite imagery layers

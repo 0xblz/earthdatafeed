@@ -1,0 +1,130 @@
+<header>
+    <a href="/" class="home-link">
+        {% if page.page_name %}<i class="fa-solid fa-chevron-left back-chevron"></i>{% endif %}
+        <span class="logo-icon" id="logo-icon" data-page="{{ page.page_name }}"><i class="fa-solid fa-earth-americas"></i></span>
+        {% if page.page_name %}
+        <span class="page-name">{{ page.page_name }}</span>
+        {% else %}
+        <span class="site-name">Earth</span>
+        {% endif %}
+    </a>
+    <div class="header-toggles">
+        <button class="header-icon-btn" id="share-btn" aria-label="Share this page" hidden><i class="fa-solid fa-share-nodes"></i></button>
+        <div class="unit-toggle" id="unit-toggle" aria-label="Toggle units">
+            <div class="unit-slider" id="unit-slider"></div>
+            <button class="unit-opt" data-unit="imperial">Imperial</button>
+            <button class="unit-opt" data-unit="metric">Metric</button>
+        </div>
+        <div class="unit-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <div class="unit-slider" id="theme-slider"></div>
+            <button class="unit-opt" data-theme="dark"><i class="fa-solid fa-moon"></i></button>
+            <button class="unit-opt" data-theme="light"><i class="fa-solid fa-sun"></i></button>
+        </div>
+    </div>
+</header>
+
+<script>
+(function() {
+    // Toggle sound
+    var toggleSfx = new Audio('/assets/audio/toggle.mp3');
+    toggleSfx.volume = 0.4;
+    toggleSfx.preload = 'auto';
+    function playToggle() { toggleSfx.currentTime = 0; toggleSfx.play(); }
+
+    // Unit toggle
+    var units = localStorage.getItem('ed_units') || 'imperial';
+    document.cookie = 'ed_units=' + units + ';path=/;max-age=31536000;SameSite=Lax';
+    var unitBtns = document.querySelectorAll('#unit-toggle .unit-opt');
+    var unitSlider = document.getElementById('unit-slider');
+    function positionUnitSlider() {
+        var active = document.querySelector('#unit-toggle .unit-opt[data-unit="' + units + '"]');
+        if (active && unitSlider) {
+            unitSlider.style.left = active.offsetLeft + 'px';
+            unitSlider.style.width = active.offsetWidth + 'px';
+        }
+    }
+    unitBtns.forEach(function(btn) {
+        if (btn.dataset.unit === units) btn.classList.add('active');
+        btn.addEventListener('click', function() {
+            if (btn.dataset.unit === units) return;
+            playToggle();
+            units = btn.dataset.unit;
+            localStorage.setItem('ed_units', units);
+            document.cookie = 'ed_units=' + units + ';path=/;max-age=31536000;SameSite=Lax';
+            unitBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            positionUnitSlider();
+            toggleSfx.addEventListener('ended', function() { location.reload(); }, { once: true });
+            setTimeout(function() { location.reload(); }, 1000);
+        });
+    });
+    positionUnitSlider();
+
+    // Theme toggle
+    var theme = localStorage.getItem('ed_theme') || '';
+    if (theme) document.documentElement.setAttribute('data-theme', theme);
+    var themeBtns = document.querySelectorAll('#theme-toggle .unit-opt');
+    var themeSlider = document.getElementById('theme-slider');
+    var activeTheme = theme || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    function positionThemeSlider() {
+        var active = document.querySelector('#theme-toggle .unit-opt[data-theme="' + activeTheme + '"]');
+        if (active && themeSlider) {
+            themeSlider.style.left = active.offsetLeft + 'px';
+            themeSlider.style.width = active.offsetWidth + 'px';
+        }
+    }
+    themeBtns.forEach(function(btn) {
+        if (btn.dataset.theme === activeTheme) btn.classList.add('active');
+        btn.addEventListener('click', function() {
+            if (btn.dataset.theme === activeTheme) return;
+            playToggle();
+            activeTheme = btn.dataset.theme;
+            localStorage.setItem('ed_theme', activeTheme);
+            document.documentElement.setAttribute('data-theme', activeTheme);
+            themeBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            positionThemeSlider();
+            positionUnitSlider();
+        });
+    });
+    positionThemeSlider();
+
+    // Share button
+    var popSfx = new Audio('/assets/audio/pop.mp3');
+    popSfx.volume = 0.4;
+    popSfx.preload = 'auto';
+    var shareBtn = document.getElementById('share-btn');
+    if (shareBtn && navigator.share) {
+        shareBtn.hidden = false;
+        shareBtn.addEventListener('click', function() {
+            popSfx.currentTime = 0;
+            popSfx.play();
+            navigator.share({
+                title: document.title,
+                url: location.href
+            }).catch(function() {});
+        });
+    }
+
+    // Set page-specific icon in logo
+    var pageIcons = {
+        'Weather': 'fa-cloud-sun',
+        'Solar': 'fa-sun',
+        'Aurora': 'fa-magnet',
+        'Earthquakes': 'fa-house-crack',
+        'Moon': 'fa-moon',
+        'Tides': 'fa-water',
+        'Air': 'fa-wind',
+        'UV': 'fa-sun',
+        'Satellite': 'fa-satellite'
+    };
+
+    window.updateLogoFlag = function() {
+        var el = document.getElementById('logo-icon');
+        var pageName = el.getAttribute('data-page');
+        var icon = pageIcons[pageName];
+        el.innerHTML = '<i class="fa-solid ' + (icon || 'fa-earth-americas') + '"></i>';
+    };
+    updateLogoFlag();
+})();
+</script>

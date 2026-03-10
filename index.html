@@ -1,0 +1,200 @@
+---
+layout: default
+page_title: "Earth Data — Live Environmental Data"
+page_description: "Real-time earth monitoring dashboard: live air quality, UV index, tide predictions, solar and space weather, earthquake monitor, and aurora forecast tools."
+page_keywords: "real-time earth monitoring dashboard, environmental conditions dashboard, live air quality map, live UV index by location, tide predictions real-time, live solar weather tracker, space weather dashboard, live earthquake monitor, aurora forecast tool"
+page_schema:
+  type: "WebApplication"
+  name: "Earth Data"
+  description: "Real-time earth monitoring dashboard with live environmental data from NASA, NOAA, and USGS."
+  category: "EnvironmentalMonitoring"
+---
+
+<div class="home-grid">
+<div class="home-monitoring">
+    <div class="section-title"><span class="pulse-dot"></span> Monitoring<span id="loc-label"></span></div>
+
+    <div class="row" onclick="location.href='/weather/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-cloud-sun c-cyan"></i></span>
+        <span class="row-label">Weather <span id="weather-temp-badge"></span></span>
+        <span class="row-text right c-muted">Conditions + 7-day forecast</span>
+    </div>
+
+    <div class="row" onclick="location.href='/air/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-wind c-blue"></i></span>
+        <span class="row-label">Air <span id="air-aqi-badge"></span></span>
+        <span class="row-text right c-muted">AQI + pollutant breakdown</span>
+    </div>
+
+    <div class="row" onclick="location.href='/uv/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-sun c-yellow"></i></span>
+        <span class="row-label">UV <span id="uv-badge"></span></span>
+        <span class="row-text right c-muted">UV index + hourly forecast</span>
+    </div>
+
+    <div class="row" onclick="location.href='/tides/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-water c-cyan"></i></span>
+        <span class="row-label">Tides</span>
+        <span class="row-text right c-muted">Water level + predictions</span>
+    </div>
+
+    <div class="row" onclick="location.href='/moon/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-moon c-amber"></i></span>
+        <span class="row-label">Moon</span>
+        <span class="row-text right c-muted">Phase + illumination</span>
+    </div>
+
+    <div class="row" onclick="location.href='/solar/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-sun c-orange"></i></span>
+        <span class="row-label">Solar</span>
+        <span class="row-text right c-muted">X-ray flux + solar wind</span>
+    </div>
+
+    <div class="row" onclick="location.href='/earthquakes/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-house-crack c-red"></i></span>
+        <span class="row-label">Earthquakes <span id="eq-hour-count"></span></span>
+        <span class="row-text right c-muted">Recent seismic activity</span>
+    </div>
+
+    <div class="row" onclick="location.href='/aurora/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-star c-green"></i></span>
+        <span class="row-label">Aurora</span>
+        <span class="row-text right c-muted">Kp index + visibility</span>
+    </div>
+
+    <div class="row" onclick="location.href='/satellite/'" style="cursor:pointer">
+        <span class="row-icon"><i class="fa-solid fa-satellite c-purple"></i></span>
+        <span class="row-label">Satellite <span class="badge-new">New</span></span>
+        <span class="row-text right c-muted">NASA GIBS imagery layers</span>
+    </div>
+
+    <div class="section-title" style="margin-top:var(--sp-4)"><i class="fa-solid fa-earth-americas"></i> EPIC<span id="epic-updated" class="epic-updated-label"></span></div>
+    <div class="epic-gallery" id="epic-gallery"></div>
+</div>
+
+<div class="home-right">
+    <div class="section-title"><i class="fa-solid fa-earth-americas"></i> Planetary Overview</div>
+    <div class="chart-tabs" id="earth-tabs">
+        <button class="chart-tab active" data-tab="seismic">Earthquakes</button>
+        <button class="chart-tab" data-tab="orrery">Solar</button>
+    </div>
+    <div id="globe-wrap" class="globe-wrap">
+        <canvas id="globe-canvas"></canvas>
+    </div>
+    <div id="orrery-wrap" class="orrery-wrap" style="display:none">
+        <canvas id="orrery-canvas"></canvas>
+    </div>
+    <div class="home-alerts" id="alerts"></div>
+</div>
+</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","topojson-client":"https://esm.sh/topojson-client@3.1.0"}}</script>
+<script type="module" src="/assets/js/globe.js"></script>
+<script type="module" src="/assets/js/orrery.js"></script>
+<script src="/assets/js/epic.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/alerts.js"></script>
+<script>
+earthDataEpic(); earthDataAlerts();
+(function() {
+    var el = document.getElementById('eq-hour-count');
+    fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            var n = data && data.features ? data.features.length : 0;
+            if (n > 0) el.innerHTML = '<span class="eq-count-badge">' + n + ' <span class="eq-count-unit">/ 1h</span></span>';
+        })
+        .catch(function() {});
+
+    var loc = null;
+    try { loc = JSON.parse(localStorage.getItem('ed_location')); } catch(e) {}
+    if (loc && loc.lat && loc.lon) {
+        var metric = (localStorage.getItem('ed_units') || 'imperial') === 'metric';
+        function tempColor(c) {
+            if (c >= 35) return '#ef4444';
+            if (c >= 25) return '#f97316';
+            if (c >= 15) return '#f59e0b';
+            if (c >= 5) return '#22c55e';
+            if (c >= -5) return '#06b6d4';
+            return '#3b82f6';
+        }
+        function uvColor(uv) {
+            if (uv < 3) return '#22c55e';
+            if (uv < 6) return '#eab308';
+            if (uv < 8) return '#f97316';
+            if (uv < 11) return '#ef4444';
+            return '#8b5cf6';
+        }
+        function aqiColor(aqi) {
+            if (aqi <= 50) return '#22c55e';
+            if (aqi <= 100) return '#eab308';
+            if (aqi <= 150) return '#f97316';
+            if (aqi <= 200) return '#ef4444';
+            if (aqi <= 300) return '#8b5cf6';
+            return '#7f1d1d';
+        }
+        var spin = '<span class="eq-count-badge"><i class="fa-solid fa-spinner fa-spin" style="font-size:0.5rem;color:var(--text-faint)"></i></span>';
+        var tempEl = document.getElementById('weather-temp-badge');
+        var aqiEl = document.getElementById('air-aqi-badge');
+        var uvEl = document.getElementById('uv-badge');
+        tempEl.innerHTML = spin; aqiEl.innerHTML = spin; uvEl.innerHTML = spin;
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=' + loc.lat + '&longitude=' + loc.lon + '&current=temperature_2m&timezone=auto')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (!data || !data.current) { tempEl.innerHTML = ''; return; }
+                var c = data.current.temperature_2m;
+                var temp = metric ? Math.round(c) + '°C' : Math.round(c * 9 / 5 + 32) + '°F';
+                tempEl.innerHTML = '<span class="eq-count-badge" style="color:' + tempColor(c) + '">' + temp + '</span>';
+            })
+            .catch(function() { tempEl.innerHTML = ''; });
+        fetch('https://air-quality-api.open-meteo.com/v1/air-quality?latitude=' + loc.lat + '&longitude=' + loc.lon + '&current=us_aqi')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (!data || !data.current) { aqiEl.innerHTML = ''; return; }
+                var aqi = parseInt(data.current.us_aqi) || 0;
+                if (aqi > 0) aqiEl.innerHTML = '<span class="eq-count-badge" style="color:' + aqiColor(aqi) + '">' + aqi + '</span>';
+                else aqiEl.innerHTML = '';
+            })
+            .catch(function() { aqiEl.innerHTML = ''; });
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=' + loc.lat + '&longitude=' + loc.lon + '&current=uv_index&timezone=auto&forecast_days=1')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (!data || !data.current) { uvEl.innerHTML = ''; return; }
+                var uv = Math.round((data.current.uv_index || 0) * 10) / 10;
+                uvEl.innerHTML = '<span class="eq-count-badge" style="color:' + uvColor(uv) + '">' + uv + '</span>';
+            })
+            .catch(function() { uvEl.innerHTML = ''; });
+    }
+    if (loc && loc.name) {
+        var parts = (loc.name || '').split(',');
+        var city = parts[0].trim();
+        var region = parts.length > 1 ? parts[1].trim() : '';
+        var locText = region ? city + ', ' + region : city;
+        var locLabel = document.getElementById('loc-label');
+        locLabel.innerHTML = '<a href="#" id="clear-loc" class="loc-clear"><i class="fa-solid fa-location-dot"></i> ' + esc(locText) + ' <i class="fa-solid fa-xmark"></i></a>';
+        document.getElementById('clear-loc').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('ed_location');
+            if (window.updateLogoFlag) updateLogoFlag();
+            location.reload();
+        });
+    }
+}());
+</script>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('#earth-tabs .chart-tab');
+    var globeWrap = document.getElementById('globe-wrap');
+    var orreryWrap = document.getElementById('orrery-wrap');
+    tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            tabs.forEach(function (t) { t.classList.remove('active'); });
+            btn.classList.add('active');
+            var tab = btn.getAttribute('data-tab');
+            globeWrap.style.display = tab === 'seismic' ? '' : 'none';
+            orreryWrap.style.display = tab === 'orrery' ? '' : 'none';
+            window.dispatchEvent(new CustomEvent('earth-tab', { detail: tab }));
+        });
+    });
+}());
+</script>

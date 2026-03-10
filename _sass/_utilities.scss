@@ -1,0 +1,44 @@
+/* === Color Classes === */
+.c-red { color: var(--color-red); }
+.c-orange { color: var(--color-orange); }
+.c-amber { color: var(--color-amber); }
+.c-yellow { color: var(--color-yellow); }
+.c-green { color: var(--color-green); }
+.c-cyan { color: var(--color-cyan); }
+.c-blue { color: var(--color-blue); }
+.c-purple { color: var(--color-purple); }
+.c-pink { color: var(--color-pink); }
+.c-muted { color: var(--text-muted); }
+.c-dim { color: var(--text-faint); }
+
+/* === Probability Colors === */
+.prob-low { color: var(--color-green); }
+.prob-med { color: var(--color-yellow); }
+.prob-high { color: var(--color-amber); }
+.prob-vhigh { color: var(--color-red); }
+
+/* === Scale Levels === */
+.level-0 { color: var(--color-green); }
+.level-1 { color: var(--color-yellow); }
+.level-2 { color: var(--color-amber); }
+.level-3 { color: var(--color-orange); }
+.level-4 { color: var(--color-red); }
+.level-5 { color: var(--color-red-dark); }
+
+/* === Solar Flare Classes === */
+.class-X { color: #ef4444; }
+.class-M { color: #f59e0b; }
+.class-C { color: #22c55e; }
+.class-B { color: #3b82f6; }
+.class-A { color: #888; }
+
+/* === Pulse Dot === */
+.pulse-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--color-green);
+  border-radius: 50%;
+  margin-left: 0;
+  animation: pulse 2s ease-in-out infinite;
+}

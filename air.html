@@ -1,0 +1,58 @@
+---
+layout: default
+page_title: "Air Quality — Earth Data"
+page_description: "Live Air Quality Index (AQI) by Location: Real-time US AQI, PM2.5, PM10, ozone, NO2, SO2, CO levels, 3-day forecast, and health recommendations. Powered by Open-Meteo."
+page_keywords: "air quality, AQI, PM2.5, PM10, ozone, NO2, SO2, carbon monoxide, air pollution, live air quality map"
+page_name: "Air"
+page_dataset:
+  name: "Live Air Quality Index (AQI)"
+  description: "Real-time AQI, PM2.5, PM10, ozone, NO2, SO2, and CO levels with 3-day forecast and health recommendations."
+  variables:
+    - "Air Quality Index (AQI)"
+    - "PM2.5"
+    - "PM10"
+    - "Ozone (O3)"
+    - "Nitrogen Dioxide (NO2)"
+    - "Sulfur Dioxide (SO2)"
+    - "Carbon Monoxide (CO)"
+  provider_name: "Open-Meteo"
+  provider_url: "https://open-meteo.com"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<form class="search-form" method="get" autocomplete="off">
+    <div class="search-wrap">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" name="q" id="q" placeholder="City, zip code, or place...">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dropdown" id="ac-dropdown"></div>
+    </div>
+</form>
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="results" class="page-content">
+    <div class="empty"><i class="fa-solid fa-wind"></i> Enter a city or location to check air quality</div>
+</div>
+</div>
+<div class="home-right">
+<div id="air-pollutants" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/air.js"></script>
+<script>
+earthDataSearch({
+    path: '/air',
+    loadingText: 'Loading air quality data...',
+    emptyIcon: 'fa-wind',
+    emptyText: 'Enter a city or location to check air quality',
+    saveLocation: true,
+    onSelect: function(q) {
+        loadAir(q);
+    }
+});
+</script>

@@ -1,0 +1,58 @@
+---
+layout: default
+page_title: "Weather — Earth Data"
+page_description: "Live Weather Worldwide: Current conditions, temperature, humidity, wind speed, visibility, dewpoint, pressure, cloud cover, 7-day forecast, and active weather alerts (US). Powered by Open-Meteo and NWS."
+page_keywords: "weather, live weather, current conditions, 7-day forecast, temperature, humidity, wind speed, global weather, world weather, environmental conditions dashboard"
+page_name: "Weather"
+page_dataset:
+  name: "Live Weather Data"
+  description: "Real-time weather conditions, temperature, humidity, wind speed, pressure, cloud cover, dewpoint, visibility, and 7-day forecast for any location worldwide."
+  variables:
+    - "Temperature"
+    - "Humidity"
+    - "Wind Speed"
+    - "Pressure"
+    - "Cloud Cover"
+    - "Dewpoint"
+    - "Visibility"
+  provider_name: "Open-Meteo"
+  provider_url: "https://open-meteo.com"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<form class="search-form" method="get" autocomplete="off">
+    <div class="search-wrap">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" name="q" id="q" placeholder="City or place name...">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dropdown" id="ac-dropdown"></div>
+    </div>
+</form>
+
+<div class="home-grid">
+    <div class="home-monitoring">
+        <div id="results" class="page-content">
+            <div class="empty"><i class="fa-solid fa-magnifying-glass-location"></i> Enter a city or place name</div>
+        </div>
+    </div>
+    <div class="home-right">
+        <div id="weather-forecast" class="page-content"></div>
+    </div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/weather.js"></script>
+<script>
+earthDataSearch({
+    path: '/weather',
+    loadingText: 'Loading weather data...',
+    emptyIcon: 'fa-magnifying-glass-location',
+    emptyText: 'Enter a city or place name',
+    saveLocation: true,
+    onSelect: function(q) {
+        loadWeather(q);
+    }
+});
+</script>

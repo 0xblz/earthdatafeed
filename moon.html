@@ -1,0 +1,36 @@
+---
+layout: default
+page_title: "Moon — Earth Data"
+page_description: "Live Moon Phase Dashboard: Current lunar phase, illumination percentage, moon age, distance from Earth, upcoming phase dates, and monthly phase calendar."
+page_keywords: "moon, moon phase, lunar phase, full moon, new moon, first quarter, last quarter, moon illumination, moon age, synodic month, lunar cycle, moon distance, waxing crescent, waning gibbous, moon calendar"
+page_name: "Moon"
+page_dataset:
+  name: "Live Moon Phase"
+  description: "Current lunar phase, illumination percentage, moon age, distance from Earth, upcoming phase dates, and monthly phase calendar."
+  variables:
+    - "Phase"
+    - "Illumination"
+    - "Moon Age"
+    - "Distance"
+  provider_name: "Astronomical Calculations"
+  provider_url: "https://earthdatafeed.com/moon/"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="moon-content" class="page-content"></div>
+</div>
+<div class="home-right">
+<div id="moon-calendar" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/moon.js"></script>
+<script>
+(function() {
+    earthDataMoon();
+    setInterval(earthDataMoon, 300000);
+})();
+</script>

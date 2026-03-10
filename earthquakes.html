@@ -1,0 +1,51 @@
+---
+layout: default
+page_title: "Earthquakes — Earth Data"
+page_description: "Live Earthquake Tracker: Real-time seismic activity, 24-hour feed with magnitude, location, and time. Powered by USGS."
+page_keywords: "earthquakes, USGS earthquakes, earthquake tracker, seismic activity, earthquake magnitude, live earthquake monitor"
+page_name: "Earthquakes"
+page_dataset:
+  name: "Live Earthquake Feed"
+  description: "Real-time seismic activity showing all M1+ earthquakes in the last 24 hours with magnitude, depth, location, and interactive timeline."
+  variables:
+    - "Magnitude"
+    - "Depth"
+    - "Location"
+    - "Time"
+  provider_name: "USGS"
+  provider_url: "https://earthquake.usgs.gov"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+page_geo:
+  region: "US"
+  placename: "United States"
+  position: "39.8283;-98.5795"
+  icbm: "39.8283, -98.5795"
+---
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<div class="home-grid">
+<div class="home-monitoring">
+
+<div id="eq-content" class="page-content"></div>
+
+</div>
+<div class="home-right">
+    <div class="section-title"><i class="fa-solid fa-house-crack"></i> All Earthquakes</div>
+    <div id="globe-wrap" class="globe-wrap">
+        <canvas id="globe-canvas"></canvas>
+    </div>
+    <div id="eq-significant" class="page-content"></div>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/earthquakes.js"></script>
+<script>
+earthDataEarthquakes();
+</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","topojson-client":"https://esm.sh/topojson-client@3.1.0"}}</script>
+<script type="module" src="/assets/js/globe.js"></script>

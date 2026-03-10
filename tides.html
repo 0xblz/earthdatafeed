@@ -1,0 +1,55 @@
+---
+layout: default
+page_title: "Tides — Earth Data"
+page_description: "Live Tide Predictions by Location: Current water level, next high and low tides, tide direction, 3-day tide forecast. Powered by NOAA CO-OPS."
+page_keywords: "tides, tide predictions, high tide, low tide, water level, NOAA tides, CO-OPS, tide chart, tide times, tide predictions real-time"
+page_name: "Tides"
+page_dataset:
+  name: "Live Tide Predictions"
+  description: "Real-time water level, high and low tide times, tide direction, and 3-day tide chart for US coastal locations."
+  variables:
+    - "Water Level"
+    - "High Tide"
+    - "Low Tide"
+    - "Tide Direction"
+  provider_name: "NOAA CO-OPS"
+  provider_url: "https://tidesandcurrents.noaa.gov"
+  temporal: "Real-time, updated continuously"
+  spatial: "US Coastal"
+---
+
+<form class="search-form" method="get" autocomplete="off">
+    <div class="search-wrap">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" name="q" id="q" placeholder="Coastal city or place...">
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+        <div class="dropdown" id="ac-dropdown"></div>
+    </div>
+</form>
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="results" class="page-content">
+    <div class="empty"><i class="fa-solid fa-water"></i> Enter a coastal city to check tides</div>
+</div>
+</div>
+<div class="home-right">
+    <div id="tide-stations" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/search.js"></script>
+<script src="/assets/js/tides.js"></script>
+<script>
+earthDataSearch({
+    path: '/tides',
+    loadingText: 'Loading tide data...',
+    emptyIcon: 'fa-water',
+    emptyText: 'Enter a coastal city to check tides',
+    saveLocation: true,
+    onSelect: function(q) {
+        loadTides(q);
+    }
+});
+</script>

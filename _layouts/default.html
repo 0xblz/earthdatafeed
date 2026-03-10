@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include head.html %}
+</head>
+<body>
+<a href="#main-content" class="skip-to-main">Skip to main content</a>
+<div class="container">
+{% include header.html %}
+<div class="dashboard-scroll" id="main-content">
+<div class="page-loader" id="page-loader"><div class="loading"><i class="fa-solid fa-spinner fa-spin"></i></div></div>
+
+{{ content }}
+
+{% include footer.html %}
+</body>
+</html>

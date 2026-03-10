@@ -1,0 +1,41 @@
+---
+layout: default
+page_title: "Satellite — Earth Data"
+page_description: "NASA GIBS Satellite Imagery: Live fire detection, aerosol index, sea surface temperature, and true color imagery from MODIS and VIIRS instruments. Powered by NASA GIBS."
+page_keywords: "satellite imagery, NASA GIBS, MODIS, VIIRS, fire detection, thermal anomalies, aerosol index, sea surface temperature, true color, earth observation"
+page_name: "Satellite"
+page_dataset:
+  name: "NASA Satellite Imagery"
+  description: "NASA GIBS satellite imagery with 16 data layers including true color, fires, sea surface temperature, aerosol, snow cover, vegetation, and more from MODIS and VIIRS instruments."
+  variables:
+    - "True Color"
+    - "Fires"
+    - "Sea Surface Temperature"
+    - "Aerosol"
+    - "Snow Cover"
+    - "Vegetation"
+    - "Night Lights"
+    - "Cloud Top Temperature"
+    - "Water Vapor"
+    - "Carbon Monoxide"
+    - "Chlorophyll"
+    - "Sea Ice"
+    - "Land Surface Temperature"
+    - "Flood Extent"
+    - "Precipitation"
+    - "Dust Score"
+  provider_name: "NASA GIBS"
+  provider_url: "https://earthdata.nasa.gov"
+  temporal: "Daily, updated every 24 hours"
+  spatial: "Global"
+---
+
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+
+<div id="sat-content" class="page-content"></div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="/assets/js/satellite.js"></script>
+<script>
+earthDataSatellite();
+</script>

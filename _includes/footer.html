@@ -1,0 +1,36 @@
+<script>var l=document.getElementById('page-loader');if(l)l.remove();</script>
+</div>
+<footer class="site-footer">
+    <div class="footer-left">
+        <span class="footer-desc">{% if page.page_description %}{{ page.page_description }}{% else %}{{ site.description }}{% endif %}</span>
+    </div>
+    <div class="footer-right">
+        <a href="https://x.com/earthdatafeed" class="footer-link" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="{{ '/privacy/' | relative_url }}" class="footer-link">Privacy</a>
+        <a href="{{ '/terms/' | relative_url }}" class="footer-link">Terms</a>
+    </div>
+</footer>
+</div>
+
+<script>
+function convertUtcTimes(){
+    document.querySelectorAll('.utc-time').forEach(function(el){
+        var ts=parseInt(el.dataset.ts)*1000;
+        var d=new Date(ts);
+        if(isNaN(d.getTime()))return;
+        if(el.dataset.format==='time'){
+            el.textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+        }else{
+            el.textContent=d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+        }
+    });
+}
+convertUtcTimes();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L62HWF3ZDX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L62HWF3ZDX');
+</script>

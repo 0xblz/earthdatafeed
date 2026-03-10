@@ -1,0 +1,170 @@
+/* === Mobile Adjustments === */
+@media (max-width: 600px) {
+  .container {
+    padding: var(--sp-3);
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-2);
+  }
+
+  .card-value {
+    font-size: 1.1rem;
+  }
+
+  .row {
+    font-size: 0.75rem;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-1);
+  }
+
+  .row-meta {
+    font-size: 0.6rem;
+  }
+
+  .sub-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    &.cols-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .eq-chart,
+  .solar-chart,
+  .aurora-chart,
+  .air-chart,
+  .weather-chart,
+  .uv-chart,
+  .tide-chart {
+    height: 8.75rem;
+  }
+
+  .epic-item {
+    flex: 0 0 calc((100% - 4 * var(--sp-2)) / 5);
+  }
+
+  .header-toggles {
+    gap: var(--sp-1);
+  }
+
+  .home-right {
+    border-top: 1px solid var(--border);
+    padding-top: var(--sp-5);
+    margin-top: var(--sp-4);
+  }
+
+  .site-footer {
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .footer-right {
+    flex-direction: row;
+  }
+
+  .globe-wrap {
+    height: 280px;
+  }
+
+  .orrery-wrap {
+    height: 280px;
+  }
+
+  .lightbox {
+    .lightbox-prev,
+    .lightbox-next {
+      font-size: 1rem;
+      padding: 0.6rem;
+    }
+
+    .lightbox-prev { left: 0.5rem; }
+    .lightbox-next { right: 0.5rem; }
+
+    img {
+      max-width: 95vw;
+      max-height: 85vh;
+    }
+  }
+
+  .sat-controls {
+    gap: var(--sp-2);
+  }
+
+  .sat-options {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .sat-map {
+    height: calc(100dvh - 16rem);
+  }
+}
+
+
+/* === Light Mode (auto — OS preference, uncomment to re-enable) === */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: #f5f5f5;
+    --surface: #fff;
+    --border: #e0e0e0;
+    --border-subtle: #eee;
+    --text: #333;
+    --text-strong: #333;
+    --text-secondary: #666;
+    --text-tertiary: #888;
+    --text-muted: #888;
+    --text-dim: #999;
+    --text-faint: #bbb;
+    --text-ghost: #ddd;
+    --link-hover: #000;
+    --hover-bg: #f0f0f0;
+    --focus: #3b82f6;
+  }
+
+  html:not([data-theme]) {
+    .badge .label { color: var(--text-secondary); }
+    .dropdown-item i { color: var(--text-faint); }
+    .empty { color: var(--text-dim); }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+      -webkit-text-fill-color: var(--text);
+    }
+  }
+}
+
+/* === Light Mode (forced via toggle) === */
+:root[data-theme="light"] {
+  --bg: #f5f5f5;
+  --surface: #fff;
+  --border: #e0e0e0;
+  --border-subtle: #eee;
+  --text: #333;
+  --text-strong: #333;
+  --text-secondary: #666;
+  --text-tertiary: #888;
+  --text-muted: #888;
+  --text-dim: #999;
+  --text-faint: #bbb;
+  --text-ghost: #ddd;
+  --link-hover: #000;
+  --hover-bg: #f0f0f0;
+  --focus: #3b82f6;
+  --alert-bg: #fff5f5;
+  --alert-border: #fecaca;
+}
+
+[data-theme="light"] {
+  .badge .label { color: var(--text-secondary); }
+  .dropdown-item i { color: var(--text-faint); }
+  .empty { color: var(--text-dim); }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+    -webkit-text-fill-color: var(--text);
+  }
+}

@@ -1,0 +1,42 @@
+---
+layout: default
+page_title: "Solar — Earth Data"
+page_description: "Live Solar Weather Dashboard: Real-time X-ray flux, Kp index, solar wind, NOAA R/S/G scales, 3-day forecast, and 7-day flare history. Powered by NOAA SWPC."
+page_keywords: "solar weather, space weather, NOAA SWPC, X-ray flux, solar flares, Kp index, geomagnetic storm, solar wind, live solar weather tracker, space weather dashboard"
+page_name: "Solar"
+page_dataset:
+  name: "Live Solar Weather"
+  description: "Real-time X-ray flux, Kp index, solar wind speed and density, NOAA R/S/G storm scales, 3-day forecast, and 7-day flare history."
+  variables:
+    - "X-ray Flux"
+    - "Kp Index"
+    - "Solar Wind Speed"
+    - "Solar Wind Density"
+  provider_name: "NOAA SWPC"
+  provider_url: "https://www.swpc.noaa.gov"
+  temporal: "Real-time, updated continuously"
+  spatial: "Global"
+---
+
+<div class="home-grid">
+<div class="home-monitoring">
+<div id="solar-content" class="page-content"></div>
+</div>
+<div class="home-right">
+    <div class="section-title"><i class="fa-solid fa-sun"></i> Timeline</div>
+    <div id="orrery-wrap" class="orrery-wrap">
+        <canvas id="orrery-canvas"></canvas>
+    </div>
+    <div id="solar-flares" class="page-content"></div>
+</div>
+</div>
+
+<script src="/assets/js/utils.js"></script>
+<script src="/assets/js/solar.js"></script>
+<script>
+earthDataSolar();
+</script>
+<script type="module" src="/assets/js/orrery.js"></script>
+<script type="module">
+window.dispatchEvent(new CustomEvent('earth-tab', { detail: 'orrery' }));
+</script>
