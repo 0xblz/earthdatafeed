@@ -16,7 +16,7 @@ var SELECTORS = {
 // ===== STATE =====
 var STATE = {
     refreshTimer: null,
-    showCount: 50,
+    showCount: 10,
     allQuakes: [],
     sigQuakes: [],
     map: null,
@@ -290,7 +290,7 @@ function renderQuakeList(quakes, total, metric) {
     var loadMore = document.getElementById('eq-load-more');
     if (loadMore) {
         loadMore.addEventListener('click', function() {
-            STATE.showCount += 50;
+            STATE.showCount += 10;
             renderQuakeList(quakes, total, metric);
         });
     }
@@ -375,7 +375,7 @@ function filterEarthquakes(q, coords) {
         STATE.filterLat = coords.lat;
         STATE.filterLon = coords.lon;
         STATE.filterCity = q;
-        STATE.showCount = 50;
+        STATE.showCount = 10;
         if (STATE.allQuakes.length) {
             renderQuakeList(STATE.allQuakes, STATE.allQuakes.length, isMetric());
         }
@@ -395,7 +395,7 @@ function clearEarthquakeFilter() {
     STATE.filterLat = null;
     STATE.filterLon = null;
     STATE.filterCity = null;
-    STATE.showCount = 50;
+    STATE.showCount = 10;
     if (STATE.allQuakes.length) {
         renderQuakeList(STATE.allQuakes, STATE.allQuakes.length, isMetric());
     }
