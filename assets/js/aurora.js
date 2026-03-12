@@ -22,7 +22,8 @@ var STATE = {
     chartTooltip: null,
     chartBars: [],
     chartKpData: [],
-    forecastHtml: ''
+    forecastHtml: '',
+    firstLoad: true
 };
 
 // ===== INIT =====
@@ -34,6 +35,12 @@ function earthDataAurora() {
 // ===== CORE FUNCTIONS =====
 
 function loadAuroraData() {
+    if (STATE.firstLoad) {
+        document.querySelector(SELECTORS.content).innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading aurora data...</div>';
+        document.querySelector(SELECTORS.kpHistory).innerHTML = '';
+        STATE.firstLoad = false;
+    }
+
     var urls = {
         kp: 'https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json',
         scales: 'https://services.swpc.noaa.gov/products/noaa-scales.json',

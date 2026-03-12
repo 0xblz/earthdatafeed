@@ -30,7 +30,8 @@ var STATE = {
     sigShowCount: 10,
     activeChartTab: 'magnitude',
     activityRange: '24h',
-    monthQuakes: []
+    monthQuakes: [],
+    firstLoad: true
 };
 
 // ===== INIT =====
@@ -68,6 +69,11 @@ function earthDataEarthquakes() {
 // ===== CORE FUNCTIONS =====
 
 function loadEarthquakeData() {
+    if (STATE.firstLoad) {
+        document.querySelector(SELECTORS.content).innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading earthquake data...</div>';
+        STATE.firstLoad = false;
+    }
+
     Promise.all([
         fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson').then(function(r) { return r.json(); }),
         fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson').then(function(r) { return r.json(); })

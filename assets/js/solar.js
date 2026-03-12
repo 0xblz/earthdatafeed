@@ -20,7 +20,8 @@ var STATE = {
     flareShowCount: 10,
     chartCanvas: null,
     chartTooltip: null,
-    chartXray: []
+    chartXray: [],
+    firstLoad: true
 };
 
 // ===== INIT =====
@@ -32,6 +33,12 @@ function earthDataSolar() {
 // ===== CORE FUNCTIONS =====
 
 function loadSolarData() {
+    if (STATE.firstLoad) {
+        document.querySelector(SELECTORS.content).innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading solar data...</div>';
+        document.querySelector(SELECTORS.forecast).innerHTML = '';
+        STATE.firstLoad = false;
+    }
+
     var urls = {
         xray: 'https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json',
         flares: 'https://services.swpc.noaa.gov/json/goes/primary/xray-flares-7-day.json',
